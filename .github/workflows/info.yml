@@ -10,46 +10,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Commit author
-        run: |
-          echo ${{ github.actor }}
-          echo $GITHUB_ACTOR
+        run: echo $GITHUB_ACTOR
 
       - name: Environment (git branch)
-        run: |
-          echo ${{ github.ref_name }}
-          echo $GITHUB_REF_NAME
+        run: echo $GITHUB_REF_NAME
 
       - name: Project (git repo)
         run: |
-          owner_plus_repo_1=${{ github.repository }}
-          owner_1="${{ github.repository_owner }}/"
-          repo_1=${owner_plus_repo_1#"$owner_1"}
-          echo $repo_1
-
-          echo "--------------------------------------"
-
-          owner_plus_repo_2=$GITHUB_REPOSITORY
-          owner_2="$GITHUB_REPOSITORY_OWNER/"
-          repo_2=${owner_plus_repo_2#"$owner_2"}
-          echo $repo_2
+          owner_plus_repo=$GITHUB_REPOSITORY
+          owner="$GITHUB_REPOSITORY_OWNER/"
+          repo=${owner_plus_repo#"$owner"}
+          echo $repo
 
       - name: Commit Long SHA
-        run: |
-          echo ${{ github.sha }}
-          echo $GITHUB_SHA
+        run: echo $GITHUB_SHA
 
       - name: Commit short SHA
         run: |
+          short_sha=`echo $GITHUB_SHA | cut -c1-8`
+          echo $short_sha
 
-          short_sha_1=`echo ${{ github.sha }} | cut -c1-8`
-          echo $short_sha_1
-
-          echo "--------------------------------------"
-
-          short_sha_2=`echo $GITHUB_SHA | cut -c1-8`
-          echo $short_sha_2
-
-          echo "--------------------------------------"
-
-          short_sha_3=echo $GITHUB_SHA | cut -c1-8
-          echo $short_sha_3
+      - name: Date in Postgre format (dd/mm/yyyy hh mm)
+        run: |
+          postgre_date=`date +"%d/%m/%Y %H %M"`
+          echo $postgre_date
