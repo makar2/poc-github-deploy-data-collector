@@ -1,0 +1,14 @@
+on:
+  push:
+    branches:
+      - main
+      - tmp
+
+jobs:
+  get-info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Date, time, branch etc
+        run: |
+          echo բարլուս
+
