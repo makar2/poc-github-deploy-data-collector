@@ -1,4 +1,5 @@
 on:
+  workflow_dispatch: {}
   push:
     branches:
       - main
@@ -8,70 +9,47 @@ jobs:
   get-info:
     runs-on: ubuntu-latest
     steps:
-      - name: Get Date, time, branch etc
+      - name: Commit author
         run: |
-          echo github.action
-          echo ${{ github.action }}
-          echo github.action_path
-          echo ${{ github.action_path }}
-          echo github.action_ref
-          echo ${{ github.action_ref }}
-          echo github.action_repository
-          echo ${{ github.action_repository }}
-          echo github.action_status
-          echo ${{ github.action_status }}
-          echo github.actor
           echo ${{ github.actor }}
-          echo github.api_url
-          echo ${{ github.api_url }}
-          echo github.base_ref
-          echo ${{ github.base_ref }}
-          echo github.env
-          echo ${{ github.env }}
-          echo github.event
-          echo ${{ github.event }}
-          echo github.event_name
-          echo ${{ github.event_name }}
-          echo github.event_path
-          echo ${{ github.event_path }}
-          echo github.graphql_url
-          echo ${{ github.graphql_url }}
-          echo github.head_ref
-          echo ${{ github.head_ref }}
-          echo github.job
-          echo ${{ github.job }}
-          echo github.ref
-          echo ${{ github.ref }}
-          echo github.ref_name
-          echo ${{ github.ref_name }}
-          echo github.ref_protected
-          echo ${{ github.ref_protected }}
-          echo github.ref_type
-          echo ${{ github.ref_type }}
-          echo github.path
-          echo ${{ github.path }}
-          echo github.repository
-          echo ${{ github.repository }}
-          echo github.repository_owner
-          echo ${{ github.repository_owner }}
-          echo github.repositoryUrl
-          echo ${{ github.repositoryUrl }}
-          echo github.retention_days
-          echo ${{ github.retention_days }}
-          echo github.run_id
-          echo ${{ github.run_id }}
-          echo github.run_number
-          echo ${{ github.run_number }}
-          echo github.run_attempt
-          echo ${{ github.run_attempt }}
-          echo github.server_url
-          echo ${{ github.server_url }}
-          echo github.sha
-          echo ${{ github.sha }}
-          echo github.token
-          echo ${{ github.token }}
-          echo github.workflow
-          echo ${{ github.workflow }}
-          echo github.workspace
-          echo ${{ github.workspace }}
+          echo $GITHUB_ACTOR
 
+      - name: Environment (git branch)
+        run: |
+          echo ${{ github.ref_name }}
+          echo $GITHUB_REF_NAME
+
+      - name: Project (git repo)
+        run: |
+          owner_plus_repo_1=${{ github.repository }}
+          owner_1="${{ github.repository_owner }}/"
+          repo_1=${owner_plus_repo_1#"$owner_1"}
+          echo $repo_1
+
+          echo "--------------------------------------"
+
+          owner_plus_repo_2=$GITHUB_REPOSITORY
+          owner_2="$GITHUB_REPOSITORY_OWNER/"
+          repo_2=${owner_plus_repo_2#"$owner_2"}
+          echo $repo_2
+
+      - name: Commit Long SHA
+        run: |
+          echo ${{ github.sha }}
+          echo $GITHUB_SHA
+
+      - name: Commit short SHA
+        run: |
+
+          short_sha_1=`echo ${{ github.sha }} | cut -c1-8`
+          echo $short_sha_1
+
+          echo "--------------------------------------"
+
+          short_sha_2=`echo $GITHUB_SHA | cut -c1-8`
+          echo $short_sha_2
+
+          echo "--------------------------------------"
+
+          short_sha_3=echo $GITHUB_SHA | cut -c1-8
+          echo $short_sha_3
