@@ -34,3 +34,8 @@ jobs:
         run: |
           postgre_date=`date +"%d/%m/%Y %H %M"`
           echo $postgre_date
+      
+      - name: Date in JavaScript format
+        run: |
+          js_date=`date -u +"%Y-%m-%dT%H:%M:%SZ"`
+          echo $js_date
